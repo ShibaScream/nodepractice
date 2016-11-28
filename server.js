@@ -3,16 +3,15 @@ const url = require('url')
 
 const PORT = 3000
 
-function start () {
+function start (route, handle) {
   function onRequest (request, response) {
-    console.log('request received on port:', PORT) // it calls this twice, weird
-    response.writeHead(200, {"Content-Type":"text/plain"})
-    response.write("Hello, World")
-    response.end()
+    console.log('request received.')
+    let pathName = url.parse(request.url).pathname
+    console.log('The following pathname requested:', pathName)
+    route(handle, pathName, response)
   }
 
   http.createServer(onRequest).listen(PORT)
-
   console.log('server started on port:', PORT)
 
   // side note
@@ -27,4 +26,4 @@ function start () {
   sayString(say, 'Hello')
 }
 
-module.exports = start
+exports.start = start
