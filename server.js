@@ -5,14 +5,13 @@ const PORT = 3000
 
 function start (route, handle) {
   function onRequest (request, response) {
-    console.log('request received.')
     let pathName = url.parse(request.url).pathname
     console.log('The following pathname requested:', pathName)
-    route(handle, pathName, response)
+    route(handle, pathName, response, request)
   }
 
   http.createServer(onRequest).listen(PORT)
-  console.log('server started on port:', PORT)
+  console.log('server started on port:', PORT, '\n\n')
 
   // side note
   function say (string) {
@@ -23,7 +22,7 @@ function start (route, handle) {
     say(string)
   }
 
-  sayString(say, 'Hello')
+  sayString(say, 'Hello, Dan')
 }
 
 exports.start = start
